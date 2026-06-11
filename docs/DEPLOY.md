@@ -153,7 +153,7 @@ make deploy     # S3 アップロード + CloudFront キャッシュ無効化
 
 1. `aws s3 sync . s3://$S3_BUCKET --delete --exclude "*" --include ...`
    - 配信に必要なファイル（`index.html` / `css` / `js` / 画像 / `robots.txt` / `sitemap.xml`）だけアップロードし、不要なファイルはバケットから削除
-   - `node_modules/`, `tools/`, `docs/`, `README.txt`, `Makefile`, `.git/` などは含まれない
+   - `node_modules/`, `tools/`, `docs/`, `README.md`, `LICENSE`, `Makefile`, `.git/` などは含まれない
 2. `index.html` だけ短めの Cache-Control (60 秒) で上書き（即反映のため）
 3. `aws cloudfront create-invalidation --paths "/*"` でエッジキャッシュを破棄
 
