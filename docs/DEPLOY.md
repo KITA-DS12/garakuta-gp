@@ -7,6 +7,24 @@
 
 ---
 
+## 構築済みリソース（2026-06-12 時点）
+
+初期構築は **AWS CLI で実施済み**。以下が実際に作成されたリソース。
+再構築や調査のときの参照用。
+
+| リソース | 値 |
+|---|---|
+| ACM 証明書 (us-east-1) | `arn:aws:acm:us-east-1:659807509935:certificate/b67abaae-2bcd-429b-8c48-7cec655aac57` |
+| S3 バケット | `garakuta.mu-k.net`（リージョン **us-east-1**） |
+| CloudFront ディストリビューション | `E263RS05YUXNHX` (`d12c9q7ub7cep6.cloudfront.net`) |
+| Origin Access Control | `EYIJXY15E8RDR` |
+| Route 53 ホストゾーン | `Z04088612OF3DM1KHJUPS` (`mu-k.net`) |
+
+> ⚠️ S3 バケットは前例 tsururin に合わせて **us-east-1** に作成した
+> （tsururin の実バケットも us-east-1。以下のコンソール手順の「東京リージョン」記述より、こちらが実態）。
+
+---
+
 ## 前提
 
 - AWS アカウントにアクセスできる（`mu-k.net` は Route 53 ホストゾーンで管理済み）
@@ -44,9 +62,9 @@ CloudFront に紐付ける証明書は **必ず バージニア北部 (us-east-1
 
 ---
 
-### 2. S3 バケットを作成（リージョン: ap-northeast-1）
+### 2. S3 バケットを作成（リージョン: us-east-1）
 
-1. **東京リージョン（ap-northeast-1）に切り替える**
+1. **米国東部（バージニア北部）us-east-1 に切り替える**（前例 tsururin と同じ）
 2. **S3 → バケットを作成**
 3. バケット名: **`garakuta.mu-k.net`**（ドメインと同名にしておくと管理しやすい）
 4. **「パブリックアクセスをすべてブロック」をオンのまま**（OAC 経由でしかアクセスさせない）
@@ -61,8 +79,8 @@ CloudFront に紐付ける証明書は **必ず バージニア北部 (us-east-1
 
 1. AWS コンソールで **CloudFront → ディストリビューションを作成**
 2. **オリジン**:
-   - オリジンドメイン: **`garakuta.mu-k.net.s3.ap-northeast-1.amazonaws.com`** を選択
-     - ⚠️ プルダウンに「ウェブサイトエンドポイント」と「REST API エンドポイント」の両方が出る場合は **REST API エンドポイント**（`*.s3.ap-northeast-1.amazonaws.com`）を選ぶ
+   - オリジンドメイン: **`garakuta.mu-k.net.s3.us-east-1.amazonaws.com`** を選択
+     - ⚠️ プルダウンに「ウェブサイトエンドポイント」と「REST API エンドポイント」の両方が出る場合は **REST API エンドポイント**（`*.s3.us-east-1.amazonaws.com`）を選ぶ
    - 名前: 自動入力でよい
    - **オリジンアクセス**: **「Origin access control settings (recommended)」** を選択
      - 「Create new OAC」→ デフォルト設定でOK
