@@ -83,7 +83,8 @@ function render(){
   c.fillStyle=sky;c.fillRect(0,0,Wp,Hp);
   if(!race.m)return;
   const m=race.m;
-  const scale=(Hp/760)*0.98;
+  // 縦長画面(スマホ)では高さ基準だとズーム過剰になるため、横の視野幅も最低 820 確保する
+  const scale=Math.min(Hp/760,Wp/820)*0.98;
   // カメラ:自機をなめらか追従(急変させない)
   const tgtX=Math.max(-80,m.chassis.position.x-Wp/scale*0.38);
   const tgtY=m.chassis.position.y-Hp/scale*0.52;
