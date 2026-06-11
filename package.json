@@ -1,0 +1,13 @@
+{
+  "name": "garakuta-gp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ガラクタGP — 完全静的Webゲーム",
+  "scripts": {
+    "ogp": "node tools/ogp.js",
+    "favicon": "node tools/favicon.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}
