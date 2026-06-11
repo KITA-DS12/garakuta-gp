@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ガラクタGP</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/poly-decomp/0.3.0/decomp.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage"><canvas id="race"></canvas></div>
+
+<div id="topbar">
+  <div class="plate"><span class="t">ガラクタGP</span><span class="s" id="subplate">PIT GARAGE</span></div>
+  <div id="hud">
+    <div class="gauge"><div class="l">はしり</div><div class="v"><span id="roundNo">1</span><small>/10</small></div></div>
+    <div class="gauge"><div class="l">きょり</div><div class="v"><span id="leadDist">0</span><small>m</small></div></div>
+    <div class="gauge"><div class="l">スクラップ</div><div class="v" id="scrapV">0</div></div>
+  </div>
+</div>
+
+<div id="minimapWrap"><div class="mlabel">コース見取図</div><canvas id="minimap"></canvas></div>
+
+<div id="caption"></div>
+
+<div id="speedbox">
+  <button class="spd on" data-s="1">×1</button>
+  <button class="spd" data-s="2">×2</button>
+  <button class="spd" data-s="6">×6</button>
+</div>
+<button id="muteBtn">音あり</button>
+<div id="howtoLink">あそびかた</div>
+
+<div id="interstamp"><div class="big" id="stampWord">完走</div><div class="note" id="stampNote"></div></div>
+
+<!-- タイトル -->
+<div id="titleOverlay">
+  <div class="logoPlank"><h1>ガラクタGP</h1><div class="tag">ポンコツ改造レース</div></div>
+  <div class="relayNotice" id="dailyInfo"></div>
+  <div class="relayNotice" id="relayNotice" style="display:none"></div>
+  <div class="titleBtns">
+    <button class="bigbtn red" id="startBtn">はじめる</button>
+    <button class="bigbtn small" id="howtoBtn">あそびかた</button>
+    <div id="titleSound">音:あり(タップで切替)</div>
+  </div>
+</div>
+
+<!-- あそびかた -->
+<div class="overlay" id="howtoModal"><div class="overlay-inner">
+  <div class="howto">
+    <div class="head"><span>あそびかた</span><span>かんたん</span></div>
+    <div class="hstep"><div class="hn">1</div><div class="hi"><canvas class="hd" data-d="car"></canvas></div><div class="ht"><span class="big"><b>見てるだけでいい。</b></span><br>マシンは勝手に走る。操作はない。</div></div>
+    <div class="hstep"><div class="hn">2</div><div class="hi"><canvas class="hd" data-d="wrench"></canvas></div><div class="ht"><span class="big"><b>止まったら、紙を1枚えらぶ。</b></span><br>それが改造。ぜんぶで10回走る。</div></div>
+    <div class="hstep"><div class="hn">3</div><div class="hi"><canvas class="hd" data-d="flag"></canvas></div><div class="ht"><span class="big"><b>とおくへ。完走したら、はやく。</b></span><br>それが<b>スコア</b>。現場は日替わり。</div></div>
+    <div class="hstep"><div class="hn">4</div><div class="hi"><canvas class="hd" data-d="burst"></canvas></div><div class="ht"><span class="big"><b>壊れてもいい。</b></span>壊れると<b>スクラップ</b>が入り、<br>50で紙を<b>ひきなおせる</b>。</div></div>
+    <div class="hstep"><div class="hn">5</div><div class="hi"><canvas class="hd" data-d="ghost"></canvas></div><div class="ht"><span class="gh">灰色は「まえの自分」。</span><br>抜けたら成長してる。</div></div>
+    <div class="hstep"><div class="hn">6</div><div class="hi"><canvas class="hd" data-d="mail"></canvas></div><div class="ht">最後のURLを友だちに送ると、<br>キミのマシンを<b>引き継いで改造</b>させられる。</div></div>
+  </div>
+  <div class="btnrow"><button class="bigbtn" id="howtoClose">わかった</button></div>
+</div></div>
+
+<!-- 呪い開封 -->
+<div class="overlay" id="curseOverlay"><div class="overlay-inner">
+  <div class="cursecard">
+    <canvas id="curseSkull"></canvas>
+    <div class="ctitle">呪いを受けた</div>
+    <div class="ctext" id="curseText"></div>
+    <div class="cpv"><canvas id="curseA"></canvas><div class="arr">→</div><canvas id="curseB"></canvas></div>
+    <button class="bigbtn red" id="curseGo">うけいれる</button>
+  </div>
+</div></div>
+
+<!-- カード -->
+<div class="overlay" id="cardOverlay"><div class="overlay-inner">
+  <div class="board">
+    <h2 id="cardHead">どれか1枚えらべ</h2>
+    <div class="sub" id="roundSummary"></div>
+  </div>
+  <div class="nowbox">
+    <canvas id="nowSketch"></canvas>
+    <div class="nowinfo"><div class="nowlabel">いまのマシン</div><div id="nowStats"></div></div>
+  </div>
+  <div class="slips" id="slipBox"></div>
+  <button class="bigbtn small" id="redrawBtn">スクラップ50で ひきなおす</button>
+</div></div>
+
+<!-- リザルト -->
+<div class="overlay" id="resultOverlay"><div class="overlay-inner">
+  <div class="cert" id="certBox"></div>
+  <div class="btnrow">
+    <button class="bigbtn red" id="tweetBtn">Xに投稿する</button>
+    <button class="bigbtn" id="copyBtn">挑戦状をコピー</button>
+  </div>
+  <div class="btnrow">
+    <button class="bigbtn" id="carryBtn">このマシンを引き継ぐ</button>
+    <button class="bigbtn" id="againBtn">新しいマシンで</button>
+  </div>
+  <div class="smallnote">コピーしたURLを誰かに送ると、相手はこのマシンを<b>引き継いで</b>改造させられる。<br>戻ってきた頃には原型がない。それがリレー。</div>
+</div></div>
+
+<script src="js/core.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/terrain.js"></script>
+<script src="js/machine.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/race.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
