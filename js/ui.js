@@ -498,6 +498,8 @@ if(relayData){
   const n=document.getElementById('relayNotice');
   n.style.display='block';
   n.innerHTML='だれかのマシンが届いている。<br>あなたは <b>'+(relayData.relay+1)+'人目</b> の整備士。引き継いで改造しろ。';
+  document.getElementById('startBtn').textContent='引き継いではじめる';
+  document.getElementById('startFreshBtn').style.display='';
 }
 auSetMute(AU.muted);
 (function(){
@@ -508,11 +510,13 @@ auSetMute(AU.muted);
     +(db?'<br>きょうのベスト:<b>'+db+'</b>':'<br>とおくへ。完走したら、はやく。');
 })();
 document.querySelectorAll('canvas.hd').forEach(cv=>doodle(cv,cv.dataset.d==='ghost'?'ghostd':cv.dataset.d,76));
-document.getElementById('startBtn').onclick=()=>{
+function beginGame(data){
   auInit();
   if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume();
   document.getElementById('titleOverlay').classList.add('hide');
   SFX.go();
-  initRun(relayData);
-};
+  initRun(data);
+}
+document.getElementById('startBtn').onclick=()=>beginGame(relayData);
+document.getElementById('startFreshBtn').onclick=()=>beginGame(null);
 loop();
