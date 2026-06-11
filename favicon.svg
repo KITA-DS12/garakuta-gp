@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- ピット小屋の看板地(ゲームの plate 変数と同色) -->
+  <rect x="4" y="4" width="92" height="92" rx="18" fill="#39483f"/>
+  <rect x="10" y="10" width="80" height="80" rx="12" fill="none" stroke="#f0e8d4" stroke-width="2.5" stroke-dasharray="6 5" opacity=".5"/>
+  <!-- ゴール旗(タイヤの後ろ) -->
+  <rect x="63" y="13" width="5.5" height="42" rx="2.75" fill="#f0e8d4"/>
+  <path d="M68.5 15 L92 23 L68.5 32 Z" fill="#c2401c"/>
+  <!-- ガラクタタイヤ -->
+  <circle cx="45" cy="61" r="27" fill="#2e2a24"/>
+  <circle cx="45" cy="61" r="21.5" fill="none" stroke="#f0e8d4" stroke-width="2.5" stroke-dasharray="8 7" opacity=".45"/>
+  <circle cx="45" cy="61" r="13" fill="#d9c79d"/>
+  <circle cx="45" cy="61" r="4.5" fill="#2e2a24"/>
+  <!-- ハブのボルト -->
+  <circle cx="45" cy="52.5" r="2.2" fill="#2e2a24"/>
+  <circle cx="37.6" cy="65.2" r="2.2" fill="#2e2a24"/>
+  <circle cx="52.4" cy="65.2" r="2.2" fill="#2e2a24"/>
+  <!-- 継ぎはぎパッチ -->
+  <g transform="rotate(-28 27 45)">
+    <rect x="20" y="40" width="14" height="10" rx="2" fill="#cdb98c"/>
+    <path d="M23 40 V50 M27 40 V50 M31 40 V50" stroke="#2e2a24" stroke-width="1.4" opacity=".55"/>
+  </g>
+</svg>

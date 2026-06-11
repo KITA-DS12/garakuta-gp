@@ -11,9 +11,22 @@ js/race.js        レース進行・ゴースト録画・激突ダメージ
 js/render.js      描画・カメラ・ミニマップ・画面バナー
 js/ui.js          カードUI・呪い開封・URLリレー・リザルト・起動
 
+Makefile          dev/deploy などのコマンド集
+docs/DEPLOY.md    インフラ初期構築の手順書(S3+CloudFront+Route53+ACM)
+.env.example      デプロイ設定のテンプレ(コピーして .env を作る)
+robots.txt        クローラー向け
+sitemap.xml       検索エンジン向け
+tools/            favicon・OGP画像の生成スクリプト(node+sharp)
+
 メモ:
 - ES modulesではなく素のscriptを順番に読む方式(file://直開きでも動く)。
   読み込み順に依存があるので index.html のscriptタグの順は変えないこと。
 - 外部依存は matter-js と poly-decomp(cdnjs)のみ。サーバー不要。
 - 1ファイル版が必要なときは、style.cssを<style>に、jsを上記の順で
   ひとつの<script>に連結すれば元に戻る。
+
+デプロイ(https://garakuta.mu-k.net):
+- 初回のみ docs/DEPLOY.md の手順でインフラを構築し、.env を作成。
+- 以後は make deploy 一発(S3 同期 + CloudFront キャッシュ無効化)。
+- make dev でローカル確認(http://localhost:8000)。
+- make favicon / make ogp で画像を再生成(要 npm install)。
