@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://garakuta.mu-k.net/sitemap.xml
