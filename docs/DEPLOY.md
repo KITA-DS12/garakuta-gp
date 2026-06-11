@@ -9,16 +9,16 @@
 
 ## 構築済みリソース（2026-06-12 時点）
 
-初期構築は **AWS CLI で実施済み**。以下が実際に作成されたリソース。
-再構築や調査のときの参照用。
+初期構築は **AWS CLI で実施済み**。作成したリソースは以下。
+ID・ARN などの実値は **`.env`（git 管理外）と AWS コンソール** で確認する
+（公開リポジトリに識別子を残さないため、ここには載せない）。
 
-| リソース | 値 |
+| リソース | 内容 |
 |---|---|
-| ACM 証明書 (us-east-1) | `arn:aws:acm:us-east-1:659807509935:certificate/b67abaae-2bcd-429b-8c48-7cec655aac57` |
-| S3 バケット | `garakuta.mu-k.net`（リージョン **us-east-1**） |
-| CloudFront ディストリビューション | `E263RS05YUXNHX` (`d12c9q7ub7cep6.cloudfront.net`) |
-| Origin Access Control | `EYIJXY15E8RDR` |
-| Route 53 ホストゾーン | `Z04088612OF3DM1KHJUPS` (`mu-k.net`) |
+| ACM 証明書 | `garakuta.mu-k.net`（us-east-1、DNS 検証） |
+| S3 バケット | `garakuta.mu-k.net`（リージョン **us-east-1**、パブリックアクセス全ブロック） |
+| CloudFront ディストリビューション | OAC 経由で S3 を配信。ID は `.env` の `CF_DISTRIBUTION_ID` |
+| Route 53 | `mu-k.net` ゾーンに `garakuta` の A/AAAA エイリアス |
 
 > ⚠️ S3 バケットは前例 tsururin に合わせて **us-east-1** に作成した
 > （tsururin の実バケットも us-east-1。以下のコンソール手順の「東京リージョン」記述より、こちらが実態）。
